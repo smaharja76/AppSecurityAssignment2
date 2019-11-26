@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title>Spell Check login</title>
+	</head>
+	<body>
+		<form method="POST">
+		<div>
+			{{ form.csrf_token }}
+			{{ form.words.label }} : {{ form.words }}
+		</div>
+		<input type="submit"  value="check words">
+		</form>
+
+	</body>
+</html>

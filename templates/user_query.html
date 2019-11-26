@@ -1,0 +1,14 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<form method="POST">
+		<div>
+			{{ form.csrf_token }}
+			{{ form.username.label }} : {{ form.username }}
+		</div>
+		<input type="submit"  value="check username">
+		</form>
+
+	</body>
+</html>

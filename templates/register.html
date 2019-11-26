@@ -1,0 +1,17 @@
+<html>
+	<head>
+		<title>Spell Check register</title>
+	</head>
+	<body>
+		<form method="POST">
+		<div>  
+			{{ form.csrf_token }}
+			{{ form.username.label }} : {{ form.username }}
+		   	{{ form.password.label }} : {{ form.password }}
+			{{ form.twofactor.label}} : {{ form.twofactor }}
+		</div>
+		<input type="submit"  value="register">
+		</form>
+
+	</body>
+</html>
