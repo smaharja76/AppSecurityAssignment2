@@ -90,13 +90,11 @@ def login():
         phone = escape(form.twofactor.data)
         user = db.session.query(User).filter_by(username=username, phone=phone).scalar()
         # print(user.username)
-        #app.logger.info('%s user is:', user)
         if(user is not None):
             global currentUser
             currentUser = username
             if (check_password_hash(user.password, form.password.data)):
-        # if (db.session.query(User.id).filter_by(username=username, password=generate_password_hash(form.password.data), phone=phone).scalar() is not None):
-                record = LoginHistory(username=currentUser)
+                record = LoginHistory(username=username)
                 db.session.add(record)
                 db.session.commit()
                 return render_template('login_success.html')
@@ -140,10 +138,14 @@ def history():
 
 @app.route('/history/query<id>', methods=['GET'])
 def query_history(id):
-    query = History.query.filter_by(id=id).scalar()
+    global  currentUser
+    query = History.query.filter_by(id=id, username=currentUser).scalar()
     #print(query)
-    return render_template('query.html', query=query)
-
+    if(query is not None):
+        return render_template('query.html', query=query)
+    else:
+        return '<html><h1>Access denied</h1></html>'
+        
 @app.route('/login_history', methods=['GET','POST'])
 def login_history():
     global  currentUser
@@ -155,9 +157,3 @@ def login_history():
         return render_template('user_query.html', form=form)
     else:
         return '<html><h1>Access denied</h1></html>'
-
-@app.route('/logout', methods=['GET','POST'])
-def logout():
-    global  currentUser
-    currentUser = ''
-    return '<html><h1>logged out</h1></html>'
